@@ -8,8 +8,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function UserDetails() {
-    const [isLoading, setIsLoading] = useState(false); // for form submission loading
-    const [userLoading, setUserLoading] = useState(true); // for fetching user details loading
+    const [isLoading, setIsLoading] = useState(false);
+    const [userLoading, setUserLoading] = useState(true);
     const [errMsg, setErrMsg] = useState('');
     const [user, setUser] = useState([]);
     const { id } = useParams();

@@ -22,8 +22,8 @@ export default function Financial_Staff() {
           token, // Add token in the headers
         },
       });
-      setUsers(data.data); // Assuming data.data is the list of bonuses
-      setFilteredUsers(data.data); // Set filteredUsers initially to all users
+      setUsers(data?.data); // Assuming data.data is the list of bonuses
+      setFilteredUsers(data?.data); // Set filteredUsers initially to all users
     } catch (err) {
       setErrMsg(err.response?.data?.message || 'Error fetching bonuses');
     } finally {
@@ -41,7 +41,7 @@ export default function Financial_Staff() {
     setSearchQuery(query);
 
     const filtered = users.filter((user) =>
-      user.recipient.email.toLowerCase().includes(query) || user.amount.toString().includes(query)
+      user.recipient?.email.toLowerCase().includes(query) || user.amount.toString().includes(query)
     );
     setFilteredUsers(filtered);
   };
@@ -128,9 +128,16 @@ export default function Financial_Staff() {
                   className="flex items-center justify-between p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition"
                 >
                   <div>
-                    <h2 className="text-lg font-semibold text-blue-600">{bonus.recipient.email}</h2>
+                    {/* Check if bonus.recipient exists before accessing email */}
+                    <h2 className="text-lg font-semibold text-blue-600">
+                      {bonus.recipient ? bonus.recipient.email : 'No email available'}
+                    </h2>
                     <p className="text-sm text-gray-600">Amount: {bonus.amount}</p>
-                    <p className="text-sm text-gray-600">Status: <span className={`font-semibold ${bonus.status === 'approved' ? 'text-green-600' : bonus.status === 'rejected' ? 'text-red-600' : 'text-yellow-600'}`}>{bonus.status}</span></p>
+                    <p className="text-sm text-gray-600">Status: 
+                      <span className={`font-semibold ${bonus.status === 'approved' ? 'text-green-600' : bonus.status === 'rejected' ? 'text-red-600' : 'text-yellow-600'}`}>
+                        {bonus.status}
+                      </span>
+                    </p>
                   </div>
                   <button
                     onClick={() => handleEmailClick(bonus._id)}

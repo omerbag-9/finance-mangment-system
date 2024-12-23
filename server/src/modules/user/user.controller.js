@@ -10,27 +10,48 @@ import { ApiFeatures } from "../../utils/ApiFeature.js"
 
 export const getUsers = async (req, res, next) => {
     try {
-        // Create a base query for fetching users
-        const userQuery = User.find();
+        // Get current month's start and end dates
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
-        // Apply API features using the ApiFeatures class
+        // Create base query and populate bonuses
+        const userQuery = User.find().populate({
+            path: 'bonuses',
+            match: {
+                createdAt: {
+                    $gte: startOfMonth,
+                    $lte: endOfMonth
+                }
+            }
+        });
+
+        // Apply API features
         const apiFeatures = new ApiFeatures(userQuery, req.query)
             .filter()
             .sort()
             .select()
             .paginate();
 
-        // Execute the query with applied features
+        // Execute query
         const users = await apiFeatures.query;
 
-        // Return the users as a response
-        return res.status(200).json({ 
-            success: true, 
-            count: users.length, 
-            data: users 
+        // Transform users to include bonus status
+        const transformedUsers = users.map(user => ({
+            ...user.toObject(),
+            hasBonusThisMonth: user.bonuses && user.bonuses.length > 0,
+            bonusAmount: user.bonuses && user.bonuses.length > 0 ? 
+                user.bonuses[0].amount : null,
+            bonusStatus: user.bonuses && user.bonuses.length > 0 ? 
+                user.bonuses[0].status : null
+        }));
+
+        return res.status(200).json({
+            success: true,
+            count: transformedUsers.length,
+            data: transformedUsers
         });
     } catch (error) {
-        // Pass any errors to the error handling middleware
         return next(new AppError(error.message, 400));
     }
 };

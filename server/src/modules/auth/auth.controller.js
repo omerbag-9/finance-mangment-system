@@ -60,14 +60,13 @@ export const login = async (req, res, next) => {
     // check existence
     const userExist = await User.findOne({ email })
 
-    if(!userExist.isActive){
-        return next(new AppError(messages.USER.NOT_ACTIVE, 401))
-    }
-
     if (!userExist) {
         return next(new AppError(messages.USER.INVALID_CREDENTIALS, 401))
     }
-
+    
+    if(!userExist.isActive){
+        return next(new AppError(messages.USER.NOT_ACTIVE, 401))
+    }
     // check password
     const match = comparePassword({ password, hashPassword: userExist.password })
     if (!match) {

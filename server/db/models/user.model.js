@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { model, Schema } from 'mongoose';
 import { userRoles } from '../../src/utils/constant/enums.js';
 
 const userSchema = new Schema({
@@ -16,6 +16,10 @@ const userSchema = new Schema({
     enum: Object.values(userRoles),
     required: true 
   },
+  bonuses: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Bonus'
+}],
   isActive: { type: Boolean, default: false },
   otp:Number,
   otpExpiry: Date,
