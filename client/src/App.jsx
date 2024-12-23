@@ -9,6 +9,7 @@ import Notification from './Components/Notification/Notification'
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 import { useContext, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
+import BonusDetails from './Components/BonusDetails/BonusDetails' // Import BonusDetails component
 
 
 let routers = createBrowserRouter([
@@ -18,6 +19,7 @@ let routers = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "notification", element:<ProtectedRoute><Notification /></ProtectedRoute> },
+      { path: "bonus-details/:id", element: <ProtectedRoute><BonusDetails /></ProtectedRoute> }, // Add route for BonusDetails
       { path: "*", element: <NotFound /> },
     ]
   }
