@@ -1,6 +1,6 @@
 import express from 'express';
 import {  isAuthorized, isAuthenticated } from '../../middleware/authentication.js';
-import { approveBonus, createBonus, deleteBonus, getBonuses, rejectBonus, updateBonus } from './bonus.controller.js';
+import { approveBonus, createBonus, deleteBonus, getBonuses, getSpecificBonus, rejectBonus, updateBonus } from './bonus.controller.js';
 import { validateCreateBonus } from './bonus.validation.js';
 import { asyncHandler } from '../../utils/asyncHandler.js';
 import { isValid } from '../../middleware/validation.js';
@@ -10,7 +10,7 @@ const bonusRouter = express.Router();
 
 
 // add bonus
-bonusRouter.post('/', 
+bonusRouter.post('/:id', 
     isAuthenticated(),
     isAuthorized([userRoles.MANAGER]),
   asyncHandler(createBonus)
@@ -18,6 +18,9 @@ bonusRouter.post('/',
 
 // get bonuses
 bonusRouter.get('/',isAuthenticated(), isAuthorized([userRoles.MANAGER , userRoles.FINANCE_STAFF]),asyncHandler(getBonuses));
+
+// get single bonus
+bonusRouter.get('/:id',isAuthenticated(), isAuthorized([userRoles.MANAGER , userRoles.FINANCE_STAFF]),asyncHandler(getSpecificBonus));
 
 // update bonus
 bonusRouter.put('/:id',isAuthenticated(), isAuthorized([userRoles.MANAGER]), asyncHandler(updateBonus));

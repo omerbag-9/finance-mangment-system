@@ -6,10 +6,13 @@ import { globalErrorHandling } from './src/utils/asyncHandler.js';
 import authRouter from './src/modules/auth/auth.router.js';
 import userRouter from './src/modules/user/user.router.js';
 import bonusRouter from './src/modules/bonus/bonus.router.js';
+import cors from 'cors';
 
 dotenv.config({ path: path.resolve('./config/.env') })
 
+
 const app = express();
+app.use(cors());
 
 // Middleware
 app.use(express.json());

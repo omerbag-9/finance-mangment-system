@@ -1,50 +1,42 @@
 import { Router } from "express";
 import { isAuthenticated, isAuthorized } from "../../middleware/authentication.js";
-import { deleteUser, resetPassword, updateUser, logout, getUserProfile } from "./user.controller.js";
+import { getUserProfile, getUsers } from "./user.controller.js";
 import { isActive } from "../../middleware/isActive.js";
-import { updateProfileSchema } from "./user.validation.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import {  userRoles } from "../../utils/constant/enums.js";
-import { isValid } from "../../middleware/validation.js";
 
 const userRouter = Router()
 
-//  update user
-userRouter.put('/',
+// get all users
+userRouter.get('/',
     isAuthenticated(),
-    isAuthorized(userRoles.CUSTOMER),
-    isValid(updateProfileSchema),
-    isActive(),
-    asyncHandler(updateUser)
+    isAuthorized(userRoles.MANAGER),
+    asyncHandler(getUsers)
 )
 
-//  delete user
-userRouter.delete('/',
-    isAuthenticated(),
-    isAuthorized(userRoles.CUSTOMER),
-    isActive(),
-    asyncHandler(deleteUser)
-)
+// //  update user
+// userRouter.put('/',
+//     isAuthenticated(),
+//     isAuthorized(userRoles.MANAGER),
+//     isValid(updateProfileSchema),
+//     isActive(),
+//     asyncHandler(updateUser)
+// )
+
+// //  delete user
+// userRouter.delete('/',
+//     isAuthenticated(),
+//     isAuthorized(userRoles.MANAGER),
+//     isActive(),
+//     asyncHandler(deleteUser)
+// )
 
 // get user profile
-userRouter.get('/profile',
+userRouter.get('/profile/:id',
     isAuthenticated(),
     isActive(),
+    isAuthorized([userRoles.MANAGER , userRoles.FINANCE_STAFF]),
     asyncHandler(getUserProfile)
-)
-
-// logout
-userRouter.get('/logout',
-    isAuthenticated(),
-    isActive(),
-    asyncHandler(logout)
-)
-
-// reset password
-userRouter.put('/reset-password',
-    isAuthenticated(),
-    isActive(),
-    asyncHandler(resetPassword)
 )
 
 export default userRouter
