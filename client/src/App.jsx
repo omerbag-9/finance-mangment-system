@@ -9,6 +9,7 @@ import Notification from './Components/Notification/Notification'
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 import { useContext, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
+import UserDetails from './Components/UserDetails/UserDetails'
 
 
 let routers = createBrowserRouter([
@@ -18,6 +19,7 @@ let routers = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "notification", element:<ProtectedRoute><Notification /></ProtectedRoute> },
+      { path: "/:id", element:<ProtectedRoute><UserDetails /></ProtectedRoute> },
       { path: "*", element: <NotFound /> },
     ]
   }
