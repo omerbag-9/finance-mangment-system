@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 export default function Navbar() {
-  const [role, setRole] = useState("");  // New state for role
+  const role = localStorage.getItem('role');  // New state for role
   const { userToken, setUserToken } = useContext(UserContext);
   function logout() {
     localStorage.removeItem('userToken');
@@ -82,9 +82,11 @@ export default function Navbar() {
                       Logout
                     </Link>
                     {/* Notification Icon */}
+                    {role === 'MANAGER' ? <> 
                     <Link to="/notification">
                       <i className="fa-regular fa-bell text-xl text-black py-2 px-3 rounded-full border-2 border-black"></i>
                     </Link>
+                    </>: ''}
                   </> : <>
                     {/* Button to open Login Modal */}
                     <Link
@@ -127,18 +129,7 @@ export default function Navbar() {
                   </NavLink>
                 ))}
                 {/* Mobile Login & Register */}
-                <button
-                  onClick={() => openModal('login')}
-                  className="block w-full text-black hover:bg-[#0027F3] hover:text-white px-4 py-2 text-base font-medium"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => openModal('register')}
-                  className="block w-full text-black hover:bg-[#0027F3] hover:text-white px-4 py-2 text-base font-medium"
-                >
-                  Register
-                </button>
+                {userToken !== null ? <>
                 {/* Mobile Notification Icon */}
                 <Link
                   to="/notification"
@@ -146,6 +137,28 @@ export default function Navbar() {
                 >
                   <i className="fa-regular fa-bell text-xl"></i> Notifications
                 </Link>
+                  <Link
+                      onClick={logout}
+                      className="block w-full text-black hover:bg-[#0027F3] hover:text-white px-4 py-2 text-base font-medium"
+                    >
+                      Logout
+                    </Link>
+                 </>: <>
+                 <Link
+                  to={'/login'}
+                  className="block w-full text-black hover:bg-[#0027F3] hover:text-white px-4 py-2 text-base font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  to={'/register'}
+                  className="block w-full text-black hover:bg-[#0027F3] hover:text-white px-4 py-2 text-base font-medium"
+                >
+                  Register
+                </Link>
+                 </>}
+                
+                
               </div>
             </Disclosure.Panel>
           </>

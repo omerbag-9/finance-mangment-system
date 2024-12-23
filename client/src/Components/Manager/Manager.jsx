@@ -87,7 +87,7 @@ export default function Manager() {
                             filteredUsers.map((user) => (
                                 <div
                                     key={user._id}
-                                    className="flex items-center justify-between p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition"
+                                    className="sm:flex items-center justify-between p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition duration-300 ease-in-out"
                                 >
                                     <div>
                                         <h2 className="text-lg font-semibold text-blue-600">{user.name}</h2>

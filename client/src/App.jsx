@@ -9,11 +9,9 @@ import Notification from './Components/Notification/Notification'
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 import { useContext, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
-<<<<<<< HEAD
 import UserDetails from './Components/UserDetails/UserDetails'
-=======
 import BonusDetails from './Components/BonusDetails/BonusDetails' // Import BonusDetails component
->>>>>>> 07b8c881823694306ae94953699528cbbe5c9555
+import Dashboard from './Components/Dashboard/Dashboard'
 
 
 let routers = createBrowserRouter([
@@ -23,11 +21,9 @@ let routers = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "notification", element:<ProtectedRoute><Notification /></ProtectedRoute> },
-<<<<<<< HEAD
+      { path: "Dashboard", element:<ProtectedRoute><Dashboard /></ProtectedRoute> },
       { path: "/:id", element:<ProtectedRoute><UserDetails /></ProtectedRoute> },
-=======
       { path: "bonus-details/:id", element: <ProtectedRoute><BonusDetails /></ProtectedRoute> }, // Add route for BonusDetails
->>>>>>> 07b8c881823694306ae94953699528cbbe5c9555
       { path: "*", element: <NotFound /> },
     ]
   }
